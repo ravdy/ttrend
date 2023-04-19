@@ -1,4 +1,6 @@
 def registry = 'https://valaxy01.jfrog.io'
+def imageName = 'valaxy01.jfrog.io/valaxy-docker-local/ttrend'
+def version   = '2.0.2'
 pipeline {
     agent {
         node {
@@ -75,6 +77,26 @@ environment {
             
             }
         }   
+    }
+    stage(" Docker Build ") {
+      steps {
+        script {
+           echo '<--------------- Docker Build Started --------------->'
+           app = docker.build(imageName+":"+version)
+           echo '<--------------- Docker Build Ends --------------->'
+        }
+      }
+    }
+    stage (" Docker Publish "){
+        steps {
+            script {
+               echo '<--------------- Docker Publish Started --------------->'  
+                docker.withRegistry(registry, 'artifactory_token'){
+                    app.push()
+                }    
+               echo '<--------------- Docker Publish Ended --------------->'  
+            }
+        }
     }   
 }
 }
