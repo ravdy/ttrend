@@ -1,6 +1,6 @@
 def registry = 'https://valaxy01.jfrog.io'
 def imageName = 'valaxy01.jfrog.io/valaxy-docker-local/ttrend'
-def version   = '2.0.2'
+def version   = '2.0.3'
 pipeline {
     agent {
         node {
